@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}QuantEQ — Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-page {
+        min-height: calc(100vh - 36px);
+        display: flex;
+        justify-content: center;
+        padding: 48px 20px;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 560px;
+        align-self: flex-start;
+        background: var(--color-bg-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md, 6px);
+        padding: 32px;
+    }
+
+    .profile-title {
+        color: var(--color-text-bright);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .profile-description {
+        margin-top: 8px;
+        color: var(--color-text-dim);
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .profile-section {
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .section-title {
+        margin-bottom: 16px;
+        color: var(--color-accent);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .field-full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        margin-bottom: 6px;
+        color: var(--color-text-dim);
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    input {
+        width: 100%;
+        height: 38px;
+        padding: 0 10px;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm, 3px);
+        color: var(--color-text-bright);
+        font-family: var(--font-ui);
+        font-size: 13px;
+        outline: none;
+    }
+
+    input:hover {
+        border-color: var(--color-border-strong);
+    }
+
+    input:focus {
+        border-color: var(--color-accent);
+    }
+
+    .field-error {
+        margin-top: 4px;
+        color: var(--color-negative);
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .success-message {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid var(--color-positive-deep);
+        border-radius: var(--radius-sm, 3px);
+        color: var(--color-positive-dim);
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .btn-primary {
+        width: 100%;
+        height: 38px;
+        margin-top: 24px;
+        background: var(--color-accent);
+        border: none;
+        border-radius: var(--radius-sm, 3px);
+        color: var(--color-bg);
+        cursor: pointer;
+        font-family: var(--font-ui);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 560px) {
+        .profile-page {
+            padding: 20px 12px;
+        }
+
+        .profile-card {
+            padding: 24px 18px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .field-full {
+            grid-column: auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="profile-page">
+    <section class="profile-card">
+        <h1 class="profile-title">Profile</h1>
+        <p class="profile-description">Update your username, personal information, or password.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="success-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="profile-section">
+                <h2 class="section-title">Personal information</h2>
+                <div class="form-grid">
+                    <div class="field field-full">
+                        <label for="id_username">Username</label>
+                        <input type="text" id="id_username" name="username"
+                               value="{{ form.username.value|default:'' }}"
+                               autocomplete="username" required>
+                        {% for error in form.username.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label for="id_first_name">First name</label>
+                        <input type="text" id="id_first_name" name="first_name"
+                               value="{{ form.first_name.value|default:'' }}"
+                               autocomplete="given-name">
+                        {% for error in form.first_name.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label for="id_last_name">Last name</label>
+                        <input type="text" id="id_last_name" name="last_name"
+                               value="{{ form.last_name.value|default:'' }}"
+                               autocomplete="family-name">
+                        {% for error in form.last_name.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field field-full">
+                        <label for="id_email">Email</label>
+                        <input type="email" id="id_email" name="email"
+                               value="{{ form.email.value|default:'' }}"
+                               autocomplete="email">
+                        {% for error in form.email.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2 class="section-title">Change password</h2>
+                <div class="form-grid">
+                    <div class="field field-full">
+                        <label for="id_current_password">Current password</label>
+                        <input type="password" id="id_current_password" name="current_password"
+                               autocomplete="current-password">
+                        {% for error in form.current_password.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label for="id_new_password">New password</label>
+                        <input type="password" id="id_new_password" name="new_password"
+                               autocomplete="new-password">
+                        {% for error in form.new_password.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label for="id_new_password_confirmation">Confirm password</label>
+                        <input type="password" id="id_new_password_confirmation"
+                               name="new_password_confirmation" autocomplete="new-password">
+                        {% for error in form.new_password_confirmation.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Save changes</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

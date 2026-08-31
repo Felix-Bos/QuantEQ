@@ -1,0 +1,24 @@
+<div class="analysis-search-strip">
+    <div class="analysis-search-control">
+        <input
+            id="searchInput"
+            type="search"
+            placeholder="SEARCH COMPANY, TICKER OR ISIN"
+            autocomplete="off"
+            aria-label="Search company, ticker or ISIN"
+            aria-autocomplete="list"
+            aria-controls="searchDropdown"
+            aria-expanded="false"
+        >
+        <div id="searchDropdown" role="listbox"></div>
+    </div>
+</div>
+
+<div id="loadingOverlay" aria-hidden="true">
+    <div id="loadingCompanyName"></div>
+    <div id="loadingTicker"></div>
+    <div class="loading-progress">
+        <div id="loadingBar"></div>
+    </div>
+    <div id="loadingStatus">FETCHING DATA...</div>
+</div>

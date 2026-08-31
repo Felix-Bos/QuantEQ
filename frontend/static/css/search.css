@@ -1,0 +1,216 @@
+.analysis-search-strip {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    height: 36px;
+    z-index: 90;
+    background: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.analysis-search-control {
+    position: relative;
+    width: 320px;
+    height: 36px;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    width: 200px;
+    height: 24px;
+    padding: 0 8px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    color: var(--color-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    outline: none;
+    appearance: none;
+}
+
+#searchInput:focus {
+    border-color: var(--color-accent);
+}
+
+#searchInput::placeholder {
+    color: var(--color-border-strong);
+    opacity: 1;
+}
+
+#searchInput::-webkit-search-cancel-button {
+    display: none;
+}
+
+#searchDropdown {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    width: 320px;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 200;
+    display: none;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+}
+
+.search-result {
+    min-height: 34px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--color-bg-elevated);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result:hover,
+.search-result.is-active {
+    padding-left: 10px;
+    background: var(--color-bg-elevated);
+    border-left: 2px solid var(--color-accent);
+}
+
+.search-result-name {
+    min-width: 0;
+    color: var(--color-text);
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-result-meta {
+    flex: 0 0 auto;
+    color: var(--color-text-faint);
+    font-size: 9px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.search-message {
+    padding: 8px 12px;
+    color: var(--color-text-faint);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+#loadingOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+}
+
+#loadingCompanyName {
+    color: var(--color-text);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+#loadingTicker {
+    margin-top: 8px;
+    color: var(--color-text-faint);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.loading-progress {
+    width: 200px;
+    height: 1px;
+    margin-top: 32px;
+    background: var(--color-border);
+}
+
+#loadingBar {
+    width: 0;
+    height: 100%;
+    background: var(--color-accent);
+    transition: width 0.4s linear;
+}
+
+#loadingStatus {
+    margin-top: 12px;
+    color: var(--color-text-faint);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 380px) {
+    .analysis-search-control,
+    #searchDropdown {
+        width: calc(100vw - 32px);
+    }
+}
+
+/* ── Workspace card grid ───────────────────────────────────────────────── */
+
+.ws-content {
+    padding: 0;
+}
+
+.ws-state {
+    padding: 12px 16px;
+    color: var(--color-text-faint);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    max-width: 560px;
+}
+
+.results-grid {
+    max-width: 560px;
+}
+
+.result-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--color-bg-elevated);
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    background: var(--color-bg-surface);
+    max-width: 560px;
+}
+
+.result-card:hover {
+    background: var(--color-bg-elevated);
+    border-left-color: var(--color-accent);
+    padding-left: 12px;
+}
+
+.card-name {
+    font-size: 10px;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1 1 0;
+    max-width: 320px;
+}
+
+.card-meta {
+    flex-shrink: 0;
+    font-size: 9px;
+    color: var(--color-text-faint);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}

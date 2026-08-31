@@ -1,0 +1,6 @@
+{% load static %}
+<script>
+    window.SEARCH_URL = "{% url 'search_companies' %}";
+    window.COMPANY_URL_TPL = "{% url 'company_detail' '__SEC_ID__' %}";
+</script>
+<script src="{% static 'js/search.js' %}"></script>

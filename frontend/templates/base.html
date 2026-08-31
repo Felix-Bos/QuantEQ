@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}QuantEQ{% endblock %}</title>
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('quanteq-theme'); } catch (err) {}
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="{% url 'analysis' %}" class="header-logo">QuantEQ</a>
+            <a href="{% url 'analysis' %}" class="header-tab {% if active_module == 'analysis' %}active{% endif %}">Equity Analysis</a>
+            <a href="{% url 'portfolio' %}" class="header-tab {% if active_module == 'portfolio' %}active{% endif %}">Portfolio Lab</a>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'profile' %}" class="header-user {% if active_module == 'profile' %}active{% endif %}">
+                {{ request.user.username }}
+            </a>
+            <a href="{% url 'logout' %}" class="header-logout">Logout</a>
+            <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle light/dark theme">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="page-content {% block page_content_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static 'js/theme.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

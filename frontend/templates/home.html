@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantEQ</title>
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('quanteq-theme'); } catch (err) {}
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--color-accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .welcome {
+            color: var(--color-text-dim);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .username {
+            color: var(--color-text-bright);
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+        }
+
+        .username:hover {
+            color: var(--color-accent);
+        }
+
+        .logout-link {
+            display: block;
+            margin-top: 32px;
+            color: var(--color-text-faint);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .logout-link:hover {
+            color: var(--color-text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div id="vanta-bg"></div>
+
+    <div class="content">
+        <div class="logo">QuantEQ</div>
+        <div class="welcome">Welcome</div>
+        <a href="{% url 'profile' %}" class="username">{{ request.user.username }}</a>
+        <a href="{% url 'logout' %}" class="logout-link">sign out</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            VANTA.NET({
+                el: '#vanta-bg',
+                color: isLight ? 0xc8c0a8 : 0x3a3a3a,
+                backgroundColor: isLight ? 0xf7f7f5 : 0x0a0a0a,
+                points: 8.0,
+                maxDistance: 22.0,
+                spacing: 18.0,
+                mouseControls: true,
+                touchControls: false,
+            });
+        });
+    </script>
+</body>
+</html>
+

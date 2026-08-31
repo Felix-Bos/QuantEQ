@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Data exports / scratch files (never commit financial or company data dumps)
+*.xlsx
+*.xls
+*.zip
+*.ipynb
+
+# Cached Morningstar WAF session (contains live cookies, regenerated on demand)
+fetch_data/.waf_session_cache.json
+.ipynb_checkpoints/
+.DS_Store

@@ -1,0 +1,29 @@
+{% comment %}
+Reusable financial table partial.
+Required: table (dict with columns + flat_rows), title (str)
+{% endcomment %}
+{% if table and table.flat_rows %}
+<div class="fin-block">
+    <div class="fin-title">{{ title }}</div>
+    <div class="fin-scroll">
+        <table class="fin-table">
+            <thead>
+                <tr>
+                    <th class="fn-th fn-indicator">INDICATOR</th>
+                    {% for col in table.columns %}<th class="fn-th fn-num">{{ col }}</th>{% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table.flat_rows %}
+                <tr class="fn-row fn-d{{ row.depth }}">
+                    <td class="fn-label">{{ row.label }}</td>
+                    {% for cell in row.cells %}
+                    <td class="fn-cell {% if cell and '-' in cell %}fn-neg{% elif cell %}fn-pos{% else %}fn-nil{% endif %}">{% if cell %}{{ cell }}{% else %}—{% endif %}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,16 @@
+django>=5.0
+djangorestframework
+python-decouple
+requests
+curl_cffi
+mstarpy>=11.0.1
+playwright
+yfinance
+scikit-learn
+skfolio
+numpy
+pandas
+scipy
+openpyxl
+hmmlearn
+statsmodels

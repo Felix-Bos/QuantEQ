@@ -1,0 +1,155 @@
+/* QuantEQ global chrome — shared across every page. */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.5;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+a {
+    color: inherit;
+}
+
+/* Header ------------------------------------------------------------- */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 36px;
+    background: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-border);
+    z-index: 100;
+    display: flex;
+    align-items: stretch;
+}
+
+.header-left {
+    display: flex;
+    align-items: stretch;
+}
+
+.header-right {
+    display: flex;
+    align-items: stretch;
+    margin-left: auto;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-right: 1px solid var(--color-border);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--color-accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.header-tab {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-right: 1px solid var(--color-border);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-dim);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.header-tab:hover {
+    color: var(--color-text);
+}
+
+.header-tab.active {
+    color: var(--color-text-bright);
+    border-bottom: 2px solid var(--color-accent);
+    margin-bottom: -1px;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-left: 1px solid var(--color-border);
+    font-size: 11px;
+    color: var(--color-text-dim);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.header-user:hover,
+.header-user.active {
+    color: var(--color-text-bright);
+}
+
+.header-logout {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-left: 1px solid var(--color-border);
+    font-size: 11px;
+    color: var(--color-text-dim);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.header-logout:hover {
+    color: var(--color-negative);
+}
+
+/* Theme toggle --------------------------------------------------------- */
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    border-left: 1px solid var(--color-border);
+    background: transparent;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    color: var(--color-text-dim);
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--color-text-bright);
+}
+
+.theme-toggle svg {
+    width: 14px;
+    height: 14px;
+}
+
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+
+[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+/* Page content ----------------------------------------------------------- */
+
+.page-content {
+    padding-top: 36px;
+}
+
+.page-content.with-search-strip {
+    padding-top: 72px;
+}

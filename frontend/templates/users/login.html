@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantEQ — Sign In</title>
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('quanteq-theme'); } catch (err) {}
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .auth-card {
+            position: relative;
+            z-index: 10;
+            width: 340px;
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md, 6px);
+            box-shadow: var(--shadow-elevated, 0 8px 24px rgba(0,0,0,0.3));
+            padding: 32px;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--color-accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid var(--color-border);
+            margin: 16px 0;
+        }
+
+        .form-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            display: block;
+            color: var(--color-text-dim);
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            height: 38px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm, 3px);
+            color: var(--color-text-bright);
+            font-family: var(--font-ui);
+            font-size: 13px;
+            padding: 0 10px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="text"]:hover,
+        input[type="password"]:hover,
+        input[type="email"]:hover {
+            border-color: var(--color-border-strong);
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            border-color: var(--color-accent);
+        }
+
+        .field-errors {
+            margin-top: 4px;
+        }
+
+        .field-error {
+            color: var(--color-negative);
+            font-family: var(--font-ui);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .non-field-errors {
+            margin-bottom: 0;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            height: 38px;
+            background: var(--color-accent);
+            color: var(--color-bg);
+            border: none;
+            border-radius: var(--radius-sm, 3px);
+            font-family: var(--font-ui);
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        .auth-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: var(--color-text-dim);
+            font-family: var(--font-ui);
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .auth-link:hover {
+            color: var(--color-text-bright);
+        }
+    </style>
+</head>
+<body>
+    <div id="vanta-bg"></div>
+
+    <div class="auth-card">
+        <div class="logo">QuantEQ</div>
+        <hr class="separator">
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-fields">
+
+                {% if form.non_field_errors %}
+                <div class="field-errors non-field-errors">
+                    {% for error in form.non_field_errors %}
+                    <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="field">
+                    <label for="id_username">Username</label>
+                    <input type="text" id="id_username" name="username"
+                           value="{{ form.username.value|default:'' }}"
+                           autocomplete="username" autofocus>
+                    {% if form.username.errors %}
+                    <div class="field-errors">
+                        {% for error in form.username.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <label for="id_password">Password</label>
+                    <input type="password" id="id_password" name="password"
+                           autocomplete="current-password">
+                    {% if form.password.errors %}
+                    <div class="field-errors">
+                        {% for error in form.password.errors %}
+                        <div class="field-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-primary">Sign In</button>
+        </form>
+
+        <a href="{% url 'signup' %}" class="auth-link">no account — create one</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            VANTA.NET({
+                el: '#vanta-bg',
+                color: isLight ? 0xc8c0a8 : 0x3a3a3a,
+                backgroundColor: isLight ? 0xf7f7f5 : 0x0a0a0a,
+                points: 8.0,
+                maxDistance: 22.0,
+                spacing: 18.0,
+                mouseControls: true,
+                touchControls: false,
+            });
+        });
+    </script>
+</body>
+</html>

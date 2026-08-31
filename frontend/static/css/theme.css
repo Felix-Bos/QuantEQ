@@ -1,0 +1,136 @@
+:root,
+[data-theme="dark"] {
+  /* surfaces, darkest to lightest */
+  --color-bg: #0a0a0a;
+  --color-bg-sunken: #080808;      /* deepest recess, e.g. #080808/#090909 */
+  --color-bg-surface: #0f0f0f;      /* panels, e.g. #0e0e0e/#0f0f0f/#0d0d0d */
+  --color-bg-elevated: #111111;     /* raised cards, e.g. #111111/#131313 */
+  --color-bg-hover: #161616;        /* hover state fill, e.g. #151515/#161616/#181818 */
+
+  /* borders, subtle to strong */
+  --color-border: #1a1a1a;          /* default hairline */
+  --color-border-mid: #202020;      /* slightly stronger, e.g. #1e1e1e/#202020/#222222 */
+  --color-border-strong: #2a2a2a;   /* emphasized, e.g. #282828/#2a2a2a/#2e2e2e */
+  --color-border-strongest: #383838;/* active/focus border, e.g. #343434/#383838/#404040 */
+
+  /* text, dimmest to brightest */
+  --color-text: #d8d8d8;            /* primary body text, e.g. #d4d4d4/#d8d8d8 */
+  --color-text-bright: #ececec;     /* headings/emphasis, e.g. #e4e4e4/#e8e8e8/#ececec/#f0f0f0 */
+  --color-text-muted: #909090;      /* secondary text, e.g. #888888/#909090/#949494/#a0a0a0/#b0b0b0/#c0c0c0/#c8c8c8/#bdbdbd/#b8b8b8 */
+  --color-text-dim: #686868;        /* tertiary/label text, e.g. #606060/#686868/#787878/#777777/#7a7a7a/#808080 */
+  --color-text-faint: #484848;      /* faintest, disabled/placeholder, e.g. #444444/#474747/#4a4a4a/#484848/#505050/#525252/#545454 */
+
+  /* accent (brand gold) */
+  --color-accent: #d8a020;
+  --color-accent-muted: #c8a020;
+  --color-accent-dim: #c8861a;      /* darker gold variant seen in the file */
+  --color-accent-faint: #8a6030;    /* very dark/desaturated gold, borders on accent elements */
+  --color-accent-deepest: #6a4e10;  /* darkest gold, e.g. background tints */
+
+  /* semantic: positive (green) */
+  --color-positive: #5aa85a;
+  --color-positive-strong: #6aaa7a;
+  --color-positive-soft: #7ab87a;   /* lighter/softer green variant */
+  --color-positive-muted: #83a98c;  /* desaturated green variant */
+  --color-positive-dim: #78a988;    /* another desaturated green seen in file */
+  --color-positive-deep: #507850;   /* darkest green, e.g. background tints */
+  --color-positive-deepest: #648b72;/* deep muted green */
+
+  /* semantic: negative (red) */
+  --color-negative: #905050;
+  --color-negative-strong: #9b5555;
+  --color-negative-soft: #b06060;   /* lighter red variant */
+  --color-negative-soft2: #a06060;  /* another lighter red */
+  --color-negative-muted: #a95b5b;  /* muted red-pink */
+  --color-negative-faint: #b66a6a;  /* faintest/lightest red */
+  --color-negative-alt: #b05050;    /* alt red used in one spot */
+
+  /* semantic: neutral blue */
+  --color-neutral-blue: #4d79a6;
+
+  /* structural black extremes (rare, deepest recesses / near-black panels) */
+  --color-black-1: #101010;
+  --color-black-2: #10100d;
+  --color-black-3: #111811;
+  --color-black-4: #151515;
+  --color-black-5: #161616;
+  --color-black-6: #1c1c1c;
+  --color-black-7: #262626;
+  --color-black-8: #303030;
+  --color-black-9: #323232;
+  --color-black-10: #3f3f3f;
+
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] {
+  --color-bg: #f7f7f5;
+  --color-bg-sunken: #eeeeeb;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #ffffff;
+  --color-bg-hover: #f0f0ed;
+
+  --color-border: #e2e2df;
+  --color-border-mid: #d8d8d4;
+  --color-border-strong: #cfcfca;
+  --color-border-strongest: #b8b8b2;
+
+  --color-text: #1c1c1a;
+  --color-text-bright: #0a0a09;
+  --color-text-muted: #57574f;
+  --color-text-dim: #6b6b62;
+  --color-text-faint: #8a8a80;
+
+  --color-accent: #b3790f;
+  --color-accent-muted: #a06d0d;
+  --color-accent-dim: #93650c;
+  --color-accent-faint: #d4a85f;
+  --color-accent-deepest: #f0dcb3;
+
+  --color-positive: #2f7a44;
+  --color-positive-strong: #256838;
+  --color-positive-soft: #3d8a52;
+  --color-positive-muted: #4f9161;
+  --color-positive-dim: #467d55;
+  --color-positive-deep: #bfe0c8;
+  --color-positive-deepest: #d8ecdd;
+
+  --color-negative: #a13b3b;
+  --color-negative-strong: #8c2f2f;
+  --color-negative-soft: #b54f4f;
+  --color-negative-soft2: #ad4646;
+  --color-negative-muted: #b25a5a;
+  --color-negative-faint: #e0b8b8;
+  --color-negative-alt: #963434;
+
+  --color-neutral-blue: #2f5c85;
+
+  --color-black-1: #ffffff;
+  --color-black-2: #f5f5f2;
+  --color-black-3: #f0f0ec;
+  --color-black-4: #ebebe7;
+  --color-black-5: #e5e5e0;
+  --color-black-6: #dddddb;
+  --color-black-7: #d0d0cc;
+  --color-black-8: #c0c0ba;
+  --color-black-9: #b5b5ae;
+  --color-black-10: #a0a099;
+
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+:root,
+[data-theme="dark"],
+[data-theme="light"] {
+  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+}

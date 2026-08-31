@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}QuantEQ — {{ sec_id }}{% endblock %}
+
+{% block page_content_class %}with-search-strip{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+<link rel="stylesheet" href="{% static 'css/detail.css' %}?v=9">
+{% endblock %}
+
+{% block content %}
+{% include "analysis/includes/search.html" %}
+
+<div class="detail-wrap">
+
+    <div id="detailLoading" class="detail-loading">
+        <div class="detail-loading-text">{{ sec_id }}</div>
+    </div>
+
+    <div id="detailError" class="detail-error" style="display:none"></div>
+
+    <div id="detailContent" style="display:none">
+
+        <!-- Header -->
+        <div class="detail-header">
+            <div>
+                <div class="detail-name"       id="dName">{{ sec_id }}</div>
+                <div class="detail-ids"        id="dIds"></div>
+                <div class="detail-sector"     id="dSector"></div>
+            </div>
+            <div class="detail-header-right">
+                <div class="detail-stars"      id="dStars"></div>
+                <div class="detail-price"      id="dPrice"></div>
+                <div class="detail-price-label" id="dPriceLabel"></div>
+                <div class="detail-fv"         id="dFairValue"></div>
+            </div>
+        </div>
+
+        <!-- Body: collapsible sidebar + content -->
+        <div class="detail-body" id="detailBody">
+
+            <nav class="detail-nav" id="detailNav">
+                <button class="nav-toggle" id="navToggle" title="Collapse sidebar">‹</button>
+
+                <div class="nav-group-label">Research</div>
+                <button class="detail-nav-item active" data-tab="overview">
+                    <span class="nav-icon">◈</span><span class="nav-label">OVERVIEW</span>
+                </button>
+                <button class="detail-nav-item" data-tab="quantitative">
+                    <span class="nav-icon">⌁</span><span class="nav-label">QUANTITATIVE</span>
+                </button>
+
+                <div class="nav-group-label">Financials</div>
+                <button class="detail-nav-item" data-tab="income">
+                    <span class="nav-icon">↑</span><span class="nav-label">INCOME</span>
+                </button>
+                <button class="detail-nav-item" data-tab="balance">
+                    <span class="nav-icon">≡</span><span class="nav-label">BALANCE</span>
+                </button>
+                <button class="detail-nav-item" data-tab="cashflow">
+                    <span class="nav-icon">⇌</span><span class="nav-label">CASH FLOW</span>
+                </button>
+                <button class="detail-nav-item" data-tab="valuation">
+                    <span class="nav-icon">∑</span><span class="nav-label">VALUATION</span>
+                </button>
+                <button class="detail-nav-item" data-tab="growth">
+                    <span class="nav-icon">▲</span><span class="nav-label">GROWTH</span>
+                </button>
+                <button class="detail-nav-item" data-tab="dividends">
+                    <span class="nav-icon">÷</span><span class="nav-label">DIVIDENDS</span>
+                </button>
+
+                <div class="nav-group-label">Intelligence</div>
+                <button class="detail-nav-item" data-tab="esg">
+                    <span class="nav-icon">◎</span><span class="nav-label">ESG</span>
+                </button>
+                <button class="detail-nav-item" data-tab="climate">
+                    <span class="nav-icon">◍</span><span class="nav-label">CLIMATE</span>
+                </button>
+                <button class="detail-nav-item" data-tab="management">
+                    <span class="nav-icon">☰</span><span class="nav-label">MANAGEMENT</span>
+                </button>
+                <button class="detail-nav-item" data-tab="institutions">
+                    <span class="nav-icon">⊞</span><span class="nav-label">BUYERS / SELLERS</span>
+                </button>
+                <button class="detail-nav-item" data-tab="analysts">
+                    <span class="nav-icon">★</span><span class="nav-label">ANALYSTS</span>
+                </button>
+            </nav>
+
+            <div class="detail-content">
+                <div class="tab-panel active" data-panel="overview"></div>
+                <div class="tab-panel" data-panel="quantitative"></div>
+                <div class="tab-panel" data-panel="income"></div>
+                <div class="tab-panel" data-panel="balance"></div>
+                <div class="tab-panel" data-panel="cashflow"></div>
+                <div class="tab-panel" data-panel="valuation"></div>
+                <div class="tab-panel" data-panel="growth"></div>
+                <div class="tab-panel" data-panel="dividends"></div>
+                <div class="tab-panel" data-panel="esg"></div>
+                <div class="tab-panel" data-panel="climate"></div>
+                <div class="tab-panel" data-panel="management"></div>
+                <div class="tab-panel" data-panel="institutions"></div>
+                <div class="tab-panel" data-panel="analysts"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% include "analysis/includes/search_scripts.html" %}
+<script>
+window.DETAIL_SEC_ID  = '{{ sec_id|escapejs }}';
+window.DETAIL_API_URL = '{% url "asset_data_api" sec_id %}';
+</script>
+<script src="{% static 'js/detail.js' %}?v=9"></script>
+{% endblock %}

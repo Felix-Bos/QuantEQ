@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}QuantEQ — Equity Analysis{% endblock %}
+
+{% block page_content_class %}with-search-strip{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}?v=3">
+{% endblock %}
+
+{% block content %}
+{% include "analysis/includes/search.html" %}
+
+<div class="ws-content">
+    <div id="emptyState" class="ws-state">TYPE A NAME, TICKER OR ISIN TO SEARCH</div>
+    <div id="searchingState" class="ws-state" style="display:none">SEARCHING...</div>
+    <div id="noResultsState" class="ws-state" style="display:none">NO RESULTS</div>
+    <div id="resultsGrid" class="results-grid"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% include "analysis/includes/search_scripts.html" %}
+{% endblock %}
