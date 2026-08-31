@@ -425,6 +425,14 @@
         return { label: 'SEVERE', cls: 'esg-level-severe' };
     }
 
+    var ESG_RING_COLORS = {
+        'esg-level-negligible': 'var(--color-positive)',
+        'esg-level-low': 'var(--color-positive-soft)',
+        'esg-level-medium': 'var(--color-accent-muted)',
+        'esg-level-high': 'var(--color-accent-dim)',
+        'esg-level-severe': 'var(--color-negative-alt)',
+    };
+
     function renderEsgScoreCard(esgRisk, sustainability) {
         var score = (esgRisk && esgRisk.score) || (sustainability && sustainability.esgRiskScore);
         var env   = sustainability && sustainability.companyExposureScore || (esgRisk && esgRisk.environmentScore);
@@ -445,8 +453,12 @@
             '<div class="esg-scores-row">';
 
         if (score) {
+            var ringPct = Math.min(parseFloat(score) / 40, 1) * 100;
+            var ringColor = ESG_RING_COLORS[level.cls] || 'var(--color-text-muted)';
             html += '<div class="esg-main-score">' +
+                '<div class="esg-ring" style="--ring-pct:' + ringPct.toFixed(1) + '%; --ring-color:' + ringColor + '">' +
                 '<div class="esg-main-num ' + level.cls + '">' + esc(parseFloat(score).toFixed(1)) + '</div>' +
+                '</div>' +
                 '<div class="esg-main-label">Total ESG Risk Score</div>' +
                 (level.label ? '<div class="esg-risk-pill ' + level.cls + '">' + esc(level.label) + '</div>' : '') +
                 (category ? '<div class="esg-category-tag">' + esc(category) + '</div>' : '') +
@@ -567,11 +579,27 @@
 
     function renderClimateTable(table, title) {
         if (!table || !Array.isArray(table.rows) || !table.rows.length) { return ''; }
-        var columns = table.columns || [];
+        var rawColumns = table.columns || [];
+        var rawRows = table.rows;
+
+        // Drop columns whose values are entirely locked behind Tracenable's
+        // paywall — they carry no usable data, just an "upgrade" placeholder.
+        var keepIndex = rawColumns.map(function (_column, index) {
+            if (index === 0) { return true; }
+            return rawRows.some(function (row) {
+                var cell = row[index];
+                return cell && cell !== '[Locked / Upgrade Required]';
+            });
+        });
+        var columns = rawColumns.filter(function (_column, index) { return keepIndex[index]; });
+        var filteredRows = rawRows.map(function (row) {
+            return row.filter(function (_cell, index) { return keepIndex[index]; });
+        });
+
         var head = columns.map(function (column, index) {
             return '<th class="fn-th ' + (index === 0 ? 'fn-indicator' : 'fn-num') + '">' + esc(column) + '</th>';
         }).join('');
-        var rows = table.rows.map(function (row) {
+        var rows = filteredRows.map(function (row) {
             return '<tr class="fn-row">' + columns.map(function (_column, index) {
                 var cell = row[index] || '';
                 return '<td class="' + (index === 0 ? 'fn-label' : 'fn-cell') + '">' +
@@ -582,7 +610,7 @@
             '<div class="qc-card-header">' +
             '<div><div class="qc-card-kicker">TRACENABLE</div>' +
             '<div class="qc-card-title">' + esc(title) + '</div></div>' +
-            '<div class="qc-card-meta">' + esc(table.rows.length + ' ROWS') + '</div></div>' +
+            '<div class="qc-card-meta">' + esc(rawRows.length + ' ROWS') + '</div></div>' +
             '<div class="fin-scroll"><table class="fin-table">' +
             '<thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table></div></section>';
     }
@@ -672,13 +700,23 @@
             var cls = direction === 'buyer' ? 'fn-pos' : 'fn-neg';
             return '<tr class="fn-row">' + columns.map(function (column) {
                 var type = column[2];
+                var field = column[0];
                 if (type === 'label') {
-                    return '<td class="fn-label ownership-name">' + displayValue(i[column[0]]) + '</td>';
+                    return '<td class="fn-label ownership-name">' + displayValue(i[field]) + '</td>';
+                }
+                if (field === 'totalSharesHeld') {
+                    var pct = parseFloat(i[field]);
+                    if (isFinite(pct)) {
+                        var barPct = Math.max(0, Math.min(pct, 100));
+                        return '<td class="fn-cell fn-ownership-cell">' +
+                            '<div class="fn-bar-track"><div class="fn-bar-fill" style="width:' + barPct + '%"></div></div>' +
+                            '<span class="fn-bar-text">' + displayValue(i[field]) + '</span></td>';
+                    }
                 }
                 var cellClass = type === 'text' ? ' ownership-text' : '';
                 if (type === 'change') { cellClass += ' ' + cls; }
                 return '<td class="fn-cell' + cellClass + '">' +
-                    displayValue(i[column[0]]) + '</td>';
+                    displayValue(i[field]) + '</td>';
             }).join('') + '</tr>';
         }).join('');
         return '<section class="research-card fin-block"><div class="card-header">' +
@@ -1083,10 +1121,13 @@
 
     // ── Quantitative metric section cards ─────────────────────────────────
 
-    function qMetricRow(label, display, tone, note, sub) {
+    function qMetricRow(label, display, tone, note, sub, barPct) {
+        var bar = barPct != null && isFinite(barPct)
+            ? '<div class="qm-bar-track"><div class="qm-bar-fill" style="width:' + Math.max(0, Math.min(barPct, 100)) + '%"></div></div>'
+            : '';
         return '<div class="qm-row ' + (tone || '') + '">' +
             '<div class="qm-label">' + esc(label) + (sub ? '<span class="qm-sub">' + esc(sub) + '</span>' : '') + '</div>' +
-            '<div class="qm-value">' + esc(display || '—') + '</div>' +
+            '<div class="qm-value">' + esc(display || '—') + bar + '</div>' +
             (note ? '<div class="qm-note">' + esc(note) + '</div>' : '') +
             '</div>';
     }
@@ -1137,7 +1178,7 @@
             '<div class="qm-divider"></div>' +
             qMetricRow('Best Day', formatPercent(risk.bestDay), 'qm-pos') +
             qMetricRow('Worst Day', formatPercent(risk.worstDay), 'qm-neg') +
-            qMetricRow('Positive Days %', formatPercent(risk.positiveDays)) +
+            qMetricRow('Positive Days %', formatPercent(risk.positiveDays), '', '', '', risk.positiveDays * 100) +
             qMetricRow('Skewness', formatNumber(risk.skewness)) +
             qMetricRow('Excess Kurtosis', formatNumber(risk.excessKurtosis)) +
             qMetricRow('1D Autocorrelation', formatNumber(risk.autocorrelation1D));
@@ -1147,7 +1188,7 @@
         var trendClass = trend === 'Bullish' ? 'qm-pos' : trend === 'Bearish' ? 'qm-neg' : '';
         var techRows =
             qMetricRow('Trend Regime', trend, trendClass) +
-            qMetricRow('RSI (14)', formatNumber(technical.rsi14, 1), technical.rsi14 >= 70 ? 'qm-neg' : technical.rsi14 <= 30 ? 'qm-pos' : '') +
+            qMetricRow('RSI (14)', formatNumber(technical.rsi14, 1), technical.rsi14 >= 70 ? 'qm-neg' : technical.rsi14 <= 30 ? 'qm-pos' : '', '', '', technical.rsi14) +
             qMetricRow('ATR (14)', formatNumber(technical.atr14), '', formatPercent(technical.atr14Percent) + ' of price') +
             '<div class="qm-divider"></div>' +
             qMetricRow('MA 20', formatNumber(technical.ma20), '', '', 'vs ' + formatPercent(technical.distanceToMa20)) +

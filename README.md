@@ -28,7 +28,9 @@ in an early/stub state.
   institutional ownership
 - Quantitative price analytics: volatility, beta, moving averages, RSI,
   relative performance vs. a benchmark
-- Light and dark theme, switchable and persisted per browser
+- A compact, card-based dashboard UI (light and dark theme, switchable and
+  persisted per browser) with inline visual indicators — an ESG risk ring,
+  ownership and RSI mini-bars — instead of raw numbers alone
 
 ## Data sources
 
