@@ -38,10 +38,11 @@ in an early/stub state.
   [`mstarpy`](https://pypi.org/project/mstarpy/) package: fundamentals,
   valuation multiples, financial statements, ESG risk, analyst reports,
   ownership. Requires a Morningstar API key (see [Setup](#setup)).
-- **Climate data — Tracenable-style scraping** (`scrape_eurostoxx600.py`):
+- **Climate data — Tracenable-style scraping** (`fetch_data/tracenable_scraper.py`):
   company-level emissions and climate-target data scraped from public
-  disclosures. For extending the climate dataset with Science-Based Targets
-  data, see [sciencebasedtargets.org](https://sciencebasedtargets.org).
+  disclosures, resolved for any company by name (not limited to a fixed
+  index). For extending the climate dataset with Science-Based Targets data,
+  see [sciencebasedtargets.org](https://sciencebasedtargets.org).
 - **Market/quantitative data — [Yahoo Finance](https://finance.yahoo.com)**,
   via [`yfinance`](https://pypi.org/project/yfinance/): historical prices
   feeding the quantitative analytics engine (volatility, beta, technicals,
@@ -66,8 +67,7 @@ backend/                  Django project
 frontend/
   templates/                Django templates
   static/                   CSS and JS (no build tooling)
-fetch_data/                Morningstar and Yahoo Finance data clients
-scrape_eurostoxx600.py     climate/ESG scraper used by analysis.services.climate_data
+fetch_data/                Morningstar, Yahoo Finance, and Tracenable data clients
 requirements.txt
 .env.example
 ```
